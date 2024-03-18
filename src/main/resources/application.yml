@@ -1,0 +1,35 @@
+server:
+#  servlet:
+#    context-path: /admin-api
+  port: 8080
+
+#mysql
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/chat_room?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  neo4j:
+    pool:
+       log-leaked-sessions:
+
+#开启日志
+logging:
+  level:
+    com:
+      mychatroom:
+        controller: info
+
+#jwt
+jwt:
+  #过期时间
+  ttl: 7200000
+
+#xml文件映射位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

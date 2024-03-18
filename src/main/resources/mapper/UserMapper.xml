@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mychatroom.mapper.UserMapper">
+    <update id="deleteFriend">
+        update friends set status = '4' where (user_id = dto.userId and friend_id = dto.friendId) or (user_id = dto.friendId and friend_id = dto.userId)
+    </update>
+    <update id="updateFriend">
+        update friends set
+           <if test="status != null and statsu != ''">
+               status = #{status},
+           </if>
+           <if test="friendRemarkName != null and friendRemarkName!= ''">
+               friend_remark_name = #{friendRemarkName},
+           </if>
+            update_time = #{updateTime}
+
+        where
+            id = #{id}
+    </update>
+
+    <select id="selectFriends" resultType="com.mychatroom.dto.FriendsDTO">
+        select
+            u.id AS "user.id",
+            u.username AS "user.username",
+            u.password AS "user.pqssword",
+            u.name AS "user.name",
+            u.avatar_url AS "user.avatarUrl",
+            u.birthday AS "user.birthday",
+            u.signature AS "user.signature",
+            u.phone AS "user.phone",
+            u.email AS "user.email",
+            u.status AS "user.status",
+            u.last_login_time AS "user.lastLoginTime",
+            u.create_time AS "user.createTime",
+            f.id AS "id",
+            f.status AS"status",
+            f.create_time AS "createTime",
+            f.update_time AS "updateTime",
+            f.append_msg AS "appendMsg",
+            f.friend_remark_name AS "friendRemarkName"
+        from
+            friends f,user u
+        where
+                f.status = 1
+           and
+                u.id = (
+                select friend_id from friends where user_id = #{userId})
+           or
+                u.id = (
+                select user_id from friends where friend_id = #{userId})
+    </select>
+</mapper>
