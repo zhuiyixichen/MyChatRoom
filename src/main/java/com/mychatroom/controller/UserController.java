@@ -4,6 +4,8 @@ package com.mychatroom.controller;
 import com.mychatroom.config.Result;
 import com.mychatroom.dto.FriendsDTO;
 import com.mychatroom.dto.LoginDTO;
+import com.mychatroom.dto.WebSocketMessageDTO;
+import com.mychatroom.pojo.MessageHistory;
 import com.mychatroom.pojo.User;
 import com.mychatroom.service.UserService;
 import com.mychatroom.util.JwtUtil;
@@ -18,13 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 @Api("用户相关操作")
 @Slf4j
-public class userController {
+public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
@@ -32,12 +35,12 @@ public class userController {
         log.info("用户登录");
         LoginDTO loginDTO = userService.login(user);
 
-
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put("UserId",loginDTO.getId());
         String token = JwtUtil.createJWT("chen",7200000,claims);
         loginDTO.setToken(token);
+        log.info(token);
         return Result.success(loginDTO);
     };
 
@@ -76,5 +79,13 @@ public class userController {
         userService.updateFriend(friendsDTO);
         return Result.success("修改成功");
     }
+
+    @GetMapping("/queryUserByUserId")
+    @ApiOperation("根据用户ID查询用户信息")
+    public Result<User> queryUserByUserId(String userId){
+        User user = userService.queryUserByUsername(userId);
+        return Result.success(user);
+    }
+
 
 }

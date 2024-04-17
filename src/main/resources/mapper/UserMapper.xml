@@ -18,6 +18,9 @@
         where
             id = #{id}
     </update>
+    <update id="updateUserStatus">
+        update user set status = #{status} where id = #{userId}
+    </update>
 
     <select id="selectFriends" resultType="com.mychatroom.dto.FriendsDTO">
         select
@@ -50,4 +53,20 @@
                 u.id = (
                 select user_id from friends where friend_id = #{userId})
     </select>
+<!--    <select id="selectUserByUsername" resultType="com.mychatroom.pojo.User">-->
+<!--        select-->
+<!--                id-->
+<!--                username,-->
+<!--                password,-->
+<!--                name,-->
+<!--                avatar_url,-->
+<!--                birthday,-->
+<!--                signature,-->
+<!--                phone,-->
+<!--                email,-->
+<!--                status,-->
+<!--                last_login_time,-->
+<!--                create_time-->
+<!--        from user where id = #{userId}-->
+<!--    </select>-->
 </mapper>

@@ -25,4 +25,7 @@ public interface UserService {
 
     //修改好友相关信息
     void updateFriend(FriendsDTO friendsDTO);
+
+    //根据用户ID查询用户信息
+    User queryUserByUsername(String username);
 }

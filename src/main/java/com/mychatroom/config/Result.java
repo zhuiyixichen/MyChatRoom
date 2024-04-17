@@ -1,7 +1,11 @@
 package com.mychatroom.config;
 
+
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 public class  Result <T> implements Serializable {
     private Integer code;//1.正常；2.错误
     private String message;

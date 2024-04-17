@@ -1,6 +1,8 @@
 package com.mychatroom.service.impl;
 
+import com.mychatroom.controller.FileController;
 import com.mychatroom.customException.UsernameExistException;
+import com.mychatroom.customException.UsernameNotExistException;
 import com.mychatroom.customException.UsernameOrPasswordWrongException;
 import com.mychatroom.dto.FriendsDTO;
 import com.mychatroom.dto.LoginDTO;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private FileController fileController;
     /**
      * 用户注册
      * @param user
@@ -60,18 +65,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public LoginDTO login(User user) {
-        User queryUser = userMapper.queryPasswordByUsername(user.getUsername());
+
         try {
+            User queryUser = userMapper.queryPasswordByUsername(user.getUsername());
             String pwd = md5(user.getPassword());
             if(queryUser.getPassword().equals(pwd)){
                 LoginDTO loginDTO = userMapper.queryById(queryUser.getId());
                 return loginDTO;
             }else{
-                //TODO 新增异常
+
                 throw new UsernameOrPasswordWrongException("用户名或密码错误");
             }
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new UsernameNotExistException("该用户名未注册");
         }
 
     }
@@ -84,6 +90,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<FriendsDTO> queryFriends(Integer userId) {
         List<FriendsDTO> list = userMapper.selectFriends(userId);
+        for (FriendsDTO friendsDTO : list) {
+            friendsDTO.getUser().setAvatarUrl(fileController.FileDownload(friendsDTO.getUser().getAvatarUrl()));
+        }
         return list;
     }
 
@@ -104,5 +113,12 @@ public class UserServiceImpl implements UserService {
     public void updateFriend(FriendsDTO friendsDTO) {
         friendsDTO.setUpdateTime(LocalDateTime.now());
         userMapper.updateFriend(friendsDTO);
+    }
+
+    @Override
+    public User queryUserByUsername(String userId) {
+        User user = userMapper.selectUserByUsername(userId);
+        user.setAvatarUrl(fileController.FileDownload(user.getAvatarUrl()));
+        return user;
     }
 }

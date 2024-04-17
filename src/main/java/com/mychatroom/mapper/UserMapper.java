@@ -5,6 +5,7 @@ import com.mychatroom.dto.LoginDTO;
 import com.mychatroom.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -27,25 +28,6 @@ public interface UserMapper{
     String queryUserIsExist(String username);
 
 
-//    @Select("select\n" +
-//            "            u.id,\n" +
-//            "            u.username,\n" +
-//            "            u.password,\n" +
-//            "            u.name,\n" +
-//            "            u.avatar_url,\n" +
-//            "            u.birthday,\n" +
-//            "            u.signature,\n" +
-//            "            u.phone,\n" +
-//            "            u.email,\n" +
-//            "            u.status,\n" +
-//            "            u.last_login_time,\n" +
-//            "            u.create_time\n" +
-//            "        from\n" +
-//            "            friends f,user u\n" +
-//            "        where\n" +
-//            "                f.user_id = #{userId}\n" +
-//            "            and\n" +
-//            "                f.friend_id = u.id")
     List<FriendsDTO> selectFriends(Integer userId);
 
     @Insert("insert into friends (user_id, friend_id, status, create_time, update_time, append_msg, friend_remark_name) VALUES " +
@@ -55,4 +37,9 @@ public interface UserMapper{
     void deleteFriend(FriendsDTO dto);
 
     void updateFriend(FriendsDTO friendsDTO);
+
+    void updateUserStatus(@Param("userId") Integer userId,@Param("status") Integer status);
+
+    @Select("select * from user where id = #{userId}")
+    User selectUserByUsername(String userId);
 }

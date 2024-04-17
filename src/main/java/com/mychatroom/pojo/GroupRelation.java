@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * 群组关系
  */
 @Data
-public class groupRelation implements Serializable {
+public class GroupRelation implements Serializable {
     //ID
     private Integer id;
 

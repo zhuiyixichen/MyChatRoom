@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class group implements Serializable {
+public class Group implements Serializable {
     //ID
     private Integer id;
 

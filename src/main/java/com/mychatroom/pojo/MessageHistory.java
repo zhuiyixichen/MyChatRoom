@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * 历史消息
  */
 @Data
-public class messageHistory implements Serializable {
+public class MessageHistory implements Serializable {
     //ID
     private Integer id;
 

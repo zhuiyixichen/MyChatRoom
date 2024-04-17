@@ -1,7 +1,7 @@
 package com.mychatroom.customException;
 
 /**
- * 该用户不存在
+ * 密码或用户名错误
  */
 public class UsernameOrPasswordWrongException extends RuntimeException{
     public UsernameOrPasswordWrongException() {

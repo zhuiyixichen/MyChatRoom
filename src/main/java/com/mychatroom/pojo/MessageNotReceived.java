@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * 未接收消息
  */
 @Data
-public class messageNotReceived implements Serializable {
+public class MessageNotReceived implements Serializable {
     //ID
     private Integer id;
 

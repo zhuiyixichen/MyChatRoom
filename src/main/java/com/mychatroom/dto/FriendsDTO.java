@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class FriendsDTO implements Serializable {
+public class FriendsDTO {
     //ID
     private Integer id;
 
